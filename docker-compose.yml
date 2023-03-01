@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - 5454:5432
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/backend
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgres
+    depends_on:
+      - db
+volumes:
+  dev-db-data:
