@@ -1,4 +1,4 @@
-__pycache__/
+./backend/apps/car_commerce/__pycache__/
 *.py[cod]
 
 # C extensions
