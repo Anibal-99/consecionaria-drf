@@ -33,7 +33,7 @@ class SalesPerson(models.Model):
     name=models.CharField(max_length=100, unique=False, blank=False)
     last_name=models.CharField(max_length=100, unique=False, blank=False)
     identification_card=models.IntegerField(blank=False, unique=True)
-    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL)
+    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country')
 
     class Meta:
         verbose_name='Sales person'
@@ -44,9 +44,10 @@ class SalesPerson(models.Model):
 
 
 class CarBrand(models.Model):
+    """Modelo de la marca del auto"""
     name=models.CharField(max_length=100, unique=True, blank=False)
     observations=models.TextField(null=True, blank=True)
-    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL)
+    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country_car')
 
     class Meta:
         verbose_name='Car brand'
@@ -56,9 +57,10 @@ class CarBrand(models.Model):
         return self.name
 
 class CarModel(models.Model):
+    """Modelo del modelo de auto """
     name=models.CharField(max_length=200, unique=False, blank=False, null=False)
     year=models.IntegerField(('year'), default= datetime.date.today().year)
-    car_brand_id=models.ForeignKey(CarBrand, null=True, on_delete=models.CASCADE)
+    car_brand_id=models.ForeignKey(CarBrand, null=True, on_delete=models.CASCADE, related_name='car_brand')
 
     class Meta:
         verbose_name='Car model'
@@ -83,8 +85,8 @@ class Car(models.Model):
     price=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
     cost=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
 
-    car_model_id=models.ForeignKey(CarModel, null=True, on_delete=models.SET_NULL)
-    color_id=models.ForeignKey(Color, null=True, on_delete=models.SET_NULL)
+    car_model_id=models.ForeignKey(CarModel, null=True, on_delete=models.SET_NULL, related_name='car_model')
+    color_id=models.ForeignKey(Color, null=True, on_delete=models.SET_NULL, related_name='color')
 
     class Meta:
         verbose_name='Car'
@@ -102,7 +104,7 @@ class Customer(models.Model):
     correo=models.EmailField()
     user=models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
 
-    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL)
+    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country_customer')
 
     class Meta:
         verbose_name='Customer'
@@ -119,9 +121,9 @@ class Sale(models.Model):
     impuesto=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
     cant_car=models.IntegerField()
 
-    car_ir=models.ForeignKey(Car, null=True, on_delete=models.SET_NULL)
-    customer_id=models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
-    sales_person_id=models.ForeignKey(SalesPerson, null=True, on_delete=models.SET_NULL)
+    car_id=models.ForeignKey(Car, null=True, on_delete=models.SET_NULL, related_name='car')
+    customer_id=models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL, related_name='seller_making_the_sale')
+    sales_person_id=models.ForeignKey(SalesPerson, null=True, on_delete=models.SET_NULL, related_name='sales_person')
 
     class Meta:
         verbose_name='Sale'

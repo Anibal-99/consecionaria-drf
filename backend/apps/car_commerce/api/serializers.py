@@ -1,4 +1,4 @@
-from apps.car_commerce.models import Region, Country
+from apps.car_commerce.models import *
 from rest_framework import serializers
 
 class RegionSerializer(serializers.ModelSerializer):
@@ -25,6 +25,80 @@ class CountrySerializer(serializers.ModelSerializer):
             'code',
             'region_id',
         ]
+
+class SalesPersonSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=SalesPerson
+        fields=[
+            'name',
+            'last_name',
+            ]
+
+class CarBrandSerializer(serializers.ModelSerializer):
+    country_id=CountrySerializer
+
+    class Meta:
+        model=CarBrand
+        fields=[
+            'name',
+            'observations',
+            'country_id',
+        ]
+
+
+class CarModelSerializer(serializers.ModelSerializer):
+    car_brand_id=CarBrand
+
+    class Meta:
+        model=CarModel
+        fields=[
+            'name',
+            'year',
+            'car_brand_id',
+        ]
+
+class ColorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=Color
+        fields=[
+            'name',
+        ]
+
+class CustomerSerializer(serializers.ModelSerializer):
+
+    country_id=serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model=Customer
+        fields=[
+            'name',
+            'last_name',
+            'phone',
+            'localidad',
+            'country_id',
+            'user',
+        ]
+
+class SaleSerializer(serializers.ModelSerializer):
+
+    car_id=serializers.StringRelatedField(read_only=True)
+    customer_is=serializers.StringRelatedField(read_only=True)
+    sales_person_id=serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model=Sale
+        fields=[
+            'date_sale',
+            'total_amount',
+            'impuesto',
+            'cant_car',
+            'car_id',
+            'customer_id',
+            'sales_person_id',
+        ]
+
 
 """
 class TestRegionSerializer(serializers.Serializer):
