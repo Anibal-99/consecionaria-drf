@@ -1,7 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from apps.car_commerce.api.serializers import RegionSerializer, CountrySerializer
-from apps.car_commerce.models import Region, Country
+from apps.car_commerce.api.serializers import *
+from apps.car_commerce.models import *
 from django.shortcuts import get_object_or_404
 
 
@@ -39,3 +39,32 @@ class RegionViewSet(viewsets.ViewSet):
 class CountryViewSet(viewsets.ModelViewSet):
     serializer_class= CountrySerializer
     queryset= Country.objects.all()
+
+
+class SalesPersonViewSet(viewsets.ModelViewSet):
+    serializer_class= SalesPersonSerializer
+    queryset=SalesPerson.objects.all()
+
+class CarBrandViewSet(viewsets.ModelViewSet):
+    serializer_class=CarBrandSerializer
+    queryset=CarBrand.objects.all()
+
+class CarModelViewSet(viewsets.ModelViewSet):
+    serializer_class=CarModelSerializer
+    queryset=CarModel.objects.all()
+
+class ColorModelViewSet(viewsets.ModelViewSet):
+    serializer_class=ColorSerializer
+    queryset=Color.objects.all()
+
+class CarViewSet(viewsets.ModelViewSet):
+    serializer_class=CarSerializer
+    queryset=Car.objects.all()
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    serializer_class=CustomerSerializer
+    queryset=Customer.objects.all()
+
+class SaleViewSet(viewsets.ModelViewSet):
+    serializer_class=SaleSerializer
+    queryset=Sale.objects.all()

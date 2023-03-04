@@ -1,5 +1,8 @@
 from apps.car_commerce.models import *
+from apps.user.models import User
 from rest_framework import serializers
+
+
 
 class RegionSerializer(serializers.ModelSerializer):
     """crea un serializador en base al modelo region"""
@@ -66,6 +69,21 @@ class ColorSerializer(serializers.ModelSerializer):
             'name',
         ]
 
+class CarSerializer(serializers.ModelSerializer):
+
+    car_model_id=serializers.StringRelatedField(read_only=True)
+    color_id=serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model=Car
+        fields=[
+            'observation',
+            'price',
+            'cost',
+            'car_model_id',
+            'color_id',
+        ]
+
 class CustomerSerializer(serializers.ModelSerializer):
 
     country_id=serializers.StringRelatedField(read_only=True)
@@ -98,6 +116,14 @@ class SaleSerializer(serializers.ModelSerializer):
             'customer_id',
             'sales_person_id',
         ]
+
+"""serializer del los usuarios"""
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=User
+        fields=['__all__']
 
 
 """
