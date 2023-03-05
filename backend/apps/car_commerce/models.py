@@ -6,6 +6,8 @@ import datetime
 
 
 class Region(models.Model):
+    """Region={sudamerica, europea, nacional}"""
+
     name=models.CharField(("Nombre"), max_length=50, unique=True)
 
     class Meta():
@@ -17,6 +19,7 @@ class Region(models.Model):
 
 
 class Country(models.Model):
+    """modelo para cargar los paises de todo el mundo"""
     name=models.CharField(max_length=50, unique=True)
     code=models.CharField(max_length=5, unique=True)
     region_id=models.ForeignKey(Region, null=True, on_delete=models.SET_NULL, related_name="countries")
@@ -30,6 +33,7 @@ class Country(models.Model):
 
 
 class SalesPerson(models.Model):
+    """Vendedores para hacer un crud de los vendedores de al concesionaria"""
     name=models.CharField(max_length=100, unique=False, blank=False)
     last_name=models.CharField(max_length=100, unique=False, blank=False)
     identification_card=models.IntegerField(blank=False, unique=True)
@@ -71,6 +75,7 @@ class CarModel(models.Model):
 
 
 class Color(models.Model):
+    """Modelo para cargar los colores"""
     name = models.CharField(max_length=100, unique=True, blank=False)
 
     class Meta:
@@ -81,6 +86,7 @@ class Color(models.Model):
         return self.name
 
 class Car(models.Model):
+    """Modelo para hacer un crud de los autos registrados en la concesionaria"""
     observation=models.TextField(null=True)
     price=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
     cost=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
@@ -97,6 +103,7 @@ class Car(models.Model):
 
 
 class Customer(models.Model):
+    """Modelo para los clientes"""
     name=models.CharField(max_length=200, unique=False, null=False)
     last_name=models.CharField(max_length=200, unique=False, null=False)
     phone=models.IntegerField()
@@ -115,6 +122,7 @@ class Customer(models.Model):
 
 
 class Sale(models.Model):
+    """Transaccion de la venta de autos"""
     date_sale=models.DateField(auto_now_add=True)
 
     total_amount=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
