@@ -13,3 +13,8 @@ Se contemplara por ahora solo la transaccion de venta de los vehiculos, la cual 
 - Cliente que compra el auto.
 - La marca y modelo del auto de la transaccion.
 - El monto total de la venta y la cantidad (de autos).
+
+## Tecnologias utilizadas
+- [Docker](https://www.docker.com/): Utilizado para dockerizar la aplicacion en contendores.
+- [PostgreSQL](https://www.postgresql.org/): Gestor de base de datos relacional para la aplicacion de django.
+- [Django rest framework](https://www.django-rest-framework.org/): Django rest framework para realiazar el backend de la aplicacion.
