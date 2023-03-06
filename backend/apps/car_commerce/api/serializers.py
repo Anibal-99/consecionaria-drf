@@ -1,8 +1,7 @@
 from apps.car_commerce.models import *
-from apps.user.models import User
+from apps.user.models import UserManager
 from rest_framework import serializers
-
-
+from apps.user.api.serializers import UserSerializer
 
 class RegionSerializer(serializers.ModelSerializer):
     """crea un serializador en base al modelo region"""
@@ -34,6 +33,7 @@ class SalesPersonSerializer(serializers.ModelSerializer):
     class Meta:
         model=SalesPerson
         fields=[
+            'id',
             'name',
             'last_name',
             ]
@@ -44,6 +44,7 @@ class CarBrandSerializer(serializers.ModelSerializer):
     class Meta:
         model=CarBrand
         fields=[
+            'id',
             'name',
             'observations',
             'country_id',
@@ -56,6 +57,7 @@ class CarModelSerializer(serializers.ModelSerializer):
     class Meta:
         model=CarModel
         fields=[
+            'id',
             'name',
             'year',
             'car_brand_id',
@@ -71,43 +73,29 @@ class ColorSerializer(serializers.ModelSerializer):
 
 class CarSerializer(serializers.ModelSerializer):
 
-    car_model_id=serializers.StringRelatedField(read_only=True)
-    color_id=serializers.StringRelatedField(read_only=True)
+    car_model_id=CarModelSerializer
+    color_id=ColorSerializer
 
     class Meta:
         model=Car
         fields=[
+            'id',
             'observation',
             'price',
             'cost',
             'car_model_id',
             'color_id',
         ]
-
-class CustomerSerializer(serializers.ModelSerializer):
-
-    country_id=serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model=Customer
-        fields=[
-            'name',
-            'last_name',
-            'phone',
-            'localidad',
-            'country_id',
-            'user',
-        ]
-
 class SaleSerializer(serializers.ModelSerializer):
 
-    car_id=serializers.StringRelatedField(read_only=True)
-    customer_is=serializers.StringRelatedField(read_only=True)
-    sales_person_id=serializers.StringRelatedField(read_only=True)
+    car_id=CarSerializer
+    customer_id=UserSerializer
+    sales_person_id=SalesPersonSerializer
 
     class Meta:
         model=Sale
         fields=[
+            'id',
             'date_sale',
             'total_amount',
             'impuesto',
@@ -116,15 +104,6 @@ class SaleSerializer(serializers.ModelSerializer):
             'customer_id',
             'sales_person_id',
         ]
-
-"""serializer del los usuarios"""
-
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model=User
-        fields=['__all__']
-
 
 """
 class TestRegionSerializer(serializers.Serializer):

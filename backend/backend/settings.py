@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.car_commerce',
     'rest_framework',
     'djmoney',
+    'phone_field',
 ]
 
 AUTH_USER_MODEL = 'user.User'

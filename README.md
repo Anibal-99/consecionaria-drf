@@ -1,4 +1,4 @@
-# Sistema de gestion para una concesionaria de autos.
+# Backend para sistema de concesionaria de autos.
 El objetivo de este proyecto es crear un sistema de gestion para una concesionaria de autos, como producto de software orientado a la venta de nuevos vehículos.
 
 ## Crud

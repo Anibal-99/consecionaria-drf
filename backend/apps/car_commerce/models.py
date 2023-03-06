@@ -2,6 +2,7 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 from apps.user.models import User
 from django.contrib.auth import get_user_model
+from phone_field import PhoneField
 import datetime
 
 
@@ -102,25 +103,6 @@ class Car(models.Model):
         return self.car_model_id
 
 
-class Customer(models.Model):
-    """Modelo para los clientes"""
-    name=models.CharField(max_length=200, unique=False, null=False)
-    last_name=models.CharField(max_length=200, unique=False, null=False)
-    phone=models.IntegerField()
-    localidad=models.CharField(max_length=200, unique=True, null=False)
-    correo=models.EmailField()
-    user=models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-
-    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country_customer')
-
-    class Meta:
-        verbose_name='Customer'
-        verbose_name_plural='Customers'
-
-    def __str__(self) -> str:
-        return self.name +' '+self.last_name
-
-
 class Sale(models.Model):
     """Transaccion de la venta de autos"""
     date_sale=models.DateField(auto_now_add=True)
@@ -130,7 +112,7 @@ class Sale(models.Model):
     cant_car=models.IntegerField()
 
     car_id=models.ForeignKey(Car, null=True, on_delete=models.SET_NULL, related_name='car')
-    customer_id=models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL, related_name='seller_making_the_sale')
+    customer_id=models.ForeignKey(get_user_model(), null=True, on_delete=models.SET_NULL, related_name='customer_person')
     sales_person_id=models.ForeignKey(SalesPerson, null=True, on_delete=models.SET_NULL, related_name='sales_person')
 
     class Meta:
