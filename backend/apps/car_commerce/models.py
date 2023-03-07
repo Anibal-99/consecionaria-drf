@@ -1,10 +1,7 @@
 from django.db import models
-from djmoney.models.fields import MoneyField
 from apps.user.models import User
 from django.contrib.auth import get_user_model
-from phone_field import PhoneField
 import datetime
-
 
 class Region(models.Model):
     """Region={sudamerica, europea, nacional}"""
@@ -89,8 +86,8 @@ class Color(models.Model):
 class Car(models.Model):
     """Modelo para hacer un crud de los autos registrados en la concesionaria"""
     observation=models.TextField(null=True)
-    price=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
-    cost=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
+    price=models.FloatField()
+    cost=models.FloatField()
 
     car_model_id=models.ForeignKey(CarModel, null=True, on_delete=models.SET_NULL, related_name='car_model')
     color_id=models.ForeignKey(Color, null=True, on_delete=models.SET_NULL, related_name='color')
@@ -107,8 +104,8 @@ class Sale(models.Model):
     """Transaccion de la venta de autos"""
     date_sale=models.DateField(auto_now_add=True)
 
-    total_amount=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
-    impuesto=MoneyField(decimal_places=2, default=0, default_currency='USD', max_digits=11)
+    total_amount= models.FloatField()
+    impuesto=models.FloatField()
     cant_car=models.IntegerField()
 
     car_id=models.ForeignKey(Car, null=True, on_delete=models.SET_NULL, related_name='car')

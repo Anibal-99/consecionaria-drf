@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from apps.car_commerce.api.serializers import *
 from apps.car_commerce.models import *
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from .permissions import AdminOrReadOnly
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 """
 class RegionViewSet(viewsets.ViewSet):
@@ -42,25 +45,38 @@ class CountryViewSet(viewsets.ModelViewSet):
 """
 
 class SalesPersonViewSet(viewsets.ModelViewSet):
+    authentication_classes=[SessionAuthentication, BasicAuthentication]
+    permission_classes = [AdminOrReadOnly]
+
     serializer_class= SalesPersonSerializer
     queryset=SalesPerson.objects.all()
 
 class CarBrandViewSet(viewsets.ModelViewSet):
+    permission_classes = [AdminOrReadOnly]
+
     serializer_class=CarBrandSerializer
     queryset=CarBrand.objects.all()
 
 class CarModelViewSet(viewsets.ModelViewSet):
+    permission_classes = [AdminOrReadOnly]
+
     serializer_class=CarModelSerializer
     queryset=CarModel.objects.all()
 
 class ColorViewSet(viewsets.ModelViewSet):
+    permission_classes = [AdminOrReadOnly]
+
     serializer_class=ColorSerializer
     queryset=Color.objects.all()
 
 class CarViewSet(viewsets.ModelViewSet):
+    permission_classes = [AdminOrReadOnly]
+
     serializer_class=CarSerializer
     queryset=Car.objects.all()
 
 class SaleViewSet(viewsets.ModelViewSet):
+    permission_classes = [AdminOrReadOnly]
+
     serializer_class=SaleSerializer
     queryset=Sale.objects.all()
