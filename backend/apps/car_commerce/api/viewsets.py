@@ -44,6 +44,7 @@ class CountryViewSet(viewsets.ModelViewSet):
     queryset= Country.objects.all()
 """
 
+
 class SalesPersonViewSet(viewsets.ModelViewSet):
     authentication_classes=[SessionAuthentication, BasicAuthentication]
     permission_classes = [AdminOrReadOnly]
