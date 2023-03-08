@@ -4,4 +4,5 @@ from .viewsets import *
 router=DefaultRouter()
 
 router.register('user', UserViewSet, basename='user')
-router.register('sign_up', SignUpViewSet, basename='sign_up')
+router.register('signup', SignUpViewSet, basename='signup')
+router.register('login', LoginViewSet, basename='login')

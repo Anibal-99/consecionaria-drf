@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'apps.car_commerce',
     'rest_framework',
     'phone_field',
+    'rest_framework.authtoken',
 ]
+
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -135,6 +137,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
     ]
 }

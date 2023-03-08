@@ -46,38 +46,25 @@ class CountryViewSet(viewsets.ModelViewSet):
 
 
 class SalesPersonViewSet(viewsets.ModelViewSet):
-    authentication_classes=[SessionAuthentication, BasicAuthentication]
-    permission_classes = [AdminOrReadOnly]
-
     serializer_class= SalesPersonSerializer
     queryset=SalesPerson.objects.all()
 
 class CarBrandViewSet(viewsets.ModelViewSet):
-    permission_classes = [AdminOrReadOnly]
-
     serializer_class=CarBrandSerializer
     queryset=CarBrand.objects.all()
 
 class CarModelViewSet(viewsets.ModelViewSet):
-    permission_classes = [AdminOrReadOnly]
-
     serializer_class=CarModelSerializer
     queryset=CarModel.objects.all()
 
 class ColorViewSet(viewsets.ModelViewSet):
-    permission_classes = [AdminOrReadOnly]
-
     serializer_class=ColorSerializer
     queryset=Color.objects.all()
 
 class CarViewSet(viewsets.ModelViewSet):
-    permission_classes = [AdminOrReadOnly]
-
     serializer_class=CarSerializer
     queryset=Car.objects.all()
 
 class SaleViewSet(viewsets.ModelViewSet):
-    permission_classes = [AdminOrReadOnly]
-
     serializer_class=SaleSerializer
     queryset=Sale.objects.all()
