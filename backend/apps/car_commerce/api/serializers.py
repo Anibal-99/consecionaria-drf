@@ -3,6 +3,7 @@ from apps.user.models import User
 from rest_framework import serializers
 from apps.user.api.serializers import UserSerializer
 
+
 class RegionSerializer(serializers.ModelSerializer):
     """crea un serializador en base al modelo region"""
     countries=serializers.StringRelatedField(many=True, read_only=True)
@@ -36,6 +37,7 @@ class SalesPersonSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'last_name',
+            'identification_card',
             ]
 
 class CarBrandSerializer(serializers.ModelSerializer):
@@ -52,7 +54,7 @@ class CarBrandSerializer(serializers.ModelSerializer):
 
 
 class CarModelSerializer(serializers.ModelSerializer):
-    car_brand_id=CarBrand
+    car_brand_id=serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model=CarModel
@@ -81,11 +83,11 @@ class CarSerializer(serializers.ModelSerializer):
         model=Car
         fields=[
             'id',
-            'observation',
-            'price',
-            'cost',
             'car_model_id',
+            'cost',
+            'price',
             'color_id',
+            'observation',
         ]
 class SaleSerializer(serializers.ModelSerializer):
 

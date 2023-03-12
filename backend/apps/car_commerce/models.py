@@ -20,14 +20,14 @@ class Country(models.Model):
     """modelo para cargar los paises de todo el mundo"""
     name=models.CharField(max_length=50, unique=True)
     code=models.CharField(max_length=5, unique=True)
-    region_id=models.ForeignKey(Region, null=True, on_delete=models.SET_NULL, related_name="countries")
+    region=models.ForeignKey(Region, null=True, on_delete=models.SET_NULL, related_name="countries")
 
     class Meta:
         verbose_name='Country'
         verbose_name_plural='Countries'
 
     def __str__(self) -> str:
-        return f"{self.region_id} : {self.name}"
+        return f"{self.region} : {self.name}"
 
 
 class SalesPerson(models.Model):
@@ -35,7 +35,7 @@ class SalesPerson(models.Model):
     name=models.CharField(max_length=100, unique=False, blank=False)
     last_name=models.CharField(max_length=100, unique=False, blank=False)
     identification_card=models.IntegerField(blank=False, unique=True)
-    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country')
+    country=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country')
 
     class Meta:
         verbose_name='Sales person'
@@ -49,7 +49,7 @@ class CarBrand(models.Model):
     """Modelo de la marca del auto"""
     name=models.CharField(max_length=100, unique=True, blank=False)
     observations=models.TextField(null=True, blank=True)
-    country_id=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country_car')
+    country=models.ForeignKey(Country, null=True, on_delete=models.SET_NULL, related_name='country_car')
 
     class Meta:
         verbose_name='Car brand'
@@ -62,14 +62,14 @@ class CarModel(models.Model):
     """Modelo del modelo de auto """
     name=models.CharField(max_length=200, unique=False, blank=False, null=False)
     year=models.IntegerField(('year'), default= datetime.date.today().year)
-    car_brand_id=models.ForeignKey(CarBrand, null=True, on_delete=models.CASCADE, related_name='car_brand')
+    car_brand=models.ForeignKey(CarBrand, null=False, on_delete=models.CASCADE, related_name='car_brand')
 
     class Meta:
         verbose_name='Car model'
         verbose_name_plural='Car models'
 
     def __str__(self) -> str:
-        return self.car_brand_id.name +' '+self.name + ' '+ self.year
+        return f"{self.car_brand.name} {self.name} {self.year}"
 
 
 class Color(models.Model):
@@ -86,18 +86,18 @@ class Color(models.Model):
 class Car(models.Model):
     """Modelo para hacer un crud de los autos registrados en la concesionaria"""
     observation=models.TextField(null=True)
-    price=models.FloatField()
-    cost=models.FloatField()
+    price=models.FloatField(null=False)
+    cost=models.FloatField(null=False)
 
-    car_model_id=models.ForeignKey(CarModel, null=True, on_delete=models.SET_NULL, related_name='car_model')
-    color_id=models.ForeignKey(Color, null=True, on_delete=models.SET_NULL, related_name='color')
+    car_model=models.ForeignKey(CarModel, null=False, on_delete=models.CASCADE, related_name='car_model')
+    color=models.ForeignKey(Color, null=True, on_delete=models.SET_NULL, related_name='color')
 
     class Meta:
         verbose_name='Car'
         verbose_name_plural='Cars'
 
     def __str__(self) -> str:
-        return self.car_model_id
+        return self.car_model
 
 
 class Sale(models.Model):
@@ -108,9 +108,9 @@ class Sale(models.Model):
     impuesto=models.FloatField()
     cant_car=models.IntegerField()
 
-    car_id=models.ForeignKey(Car, null=True, on_delete=models.SET_NULL, related_name='car')
-    customer_id=models.ForeignKey(get_user_model(), null=True, on_delete=models.SET_NULL, related_name='customer_person')
-    sales_person_id=models.ForeignKey(SalesPerson, null=True, on_delete=models.SET_NULL, related_name='sales_person')
+    car=models.ForeignKey(Car, null=True, on_delete=models.SET_NULL, related_name='car')
+    customer=models.ForeignKey(get_user_model(), null=True, on_delete=models.SET_NULL, related_name='customer_person')
+    sales_person=models.ForeignKey(SalesPerson, null=True, on_delete=models.SET_NULL, related_name='sales_person')
 
     class Meta:
         verbose_name='Sale'

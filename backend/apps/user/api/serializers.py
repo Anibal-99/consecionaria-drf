@@ -3,14 +3,17 @@ from rest_framework import serializers
 from rest_framework.validators import ValidationError
 from rest_framework.authtoken.models import Token
 
-
 class UserSerializer(serializers.ModelSerializer):
 
+    """Serializador de todos los datos de un usuario, este sera utilizado solo por un
+    usuario administrador"""
     class Meta:
         model= User
         fields='__all__'
 
 class SignUpSerializer(serializers.ModelSerializer):
+    """Serializador para realizar el signup de los usuario"""
+
     email=serializers.EmailField()
     username=serializers.CharField(max_length=50)
     password=serializers.CharField(min_length=8, write_only=True)
@@ -26,6 +29,7 @@ class SignUpSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         """Metodo para validar que el usuario existe en la base de datos"""
         email_exists=User.objects.filter(email=attrs['email']).exists()
+
         if email_exists:
             raise ValidationError({'Message': 'This email already exists'})
         return super().validate(attrs)
@@ -38,4 +42,5 @@ class SignUpSerializer(serializers.ModelSerializer):
         user.save()
 
         Token.objects.create(user=user)
+
         return user

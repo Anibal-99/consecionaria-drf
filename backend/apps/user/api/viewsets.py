@@ -12,6 +12,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset=User.objects.all()
 
 class SignUpViewSet(viewsets.ViewSet):
+    """View para realiar un signup de un usuario"""
 
     serializer_class=SignUpSerializer
 
